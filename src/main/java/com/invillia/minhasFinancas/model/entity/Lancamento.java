@@ -2,8 +2,11 @@ package com.invillia.minhasFinancas.model.entity;
 
 import com.invillia.minhasFinancas.model.enums.StatusLancamento;
 import com.invillia.minhasFinancas.model.enums.TipoLancamento;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -11,8 +14,10 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "lancamento")
-@Builder
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Lancamento {
 
     @Id
@@ -37,7 +42,7 @@ public class Lancamento {
     private BigDecimal valor;
 
     @Column(name = "data_cadastro")
-    @Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
+    @CreationTimestamp
     private LocalDate dataCadastro;
 
     @Column(name = "tipo")

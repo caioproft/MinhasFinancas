@@ -1,13 +1,18 @@
 package com.invillia.minhasFinancas.model.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
 @Table (name = "usuario")
-@Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Usuario {
 
     @Id
@@ -23,4 +28,5 @@ public class Usuario {
 
     @Column(name = "senha")
     private String senha;
+
 }
