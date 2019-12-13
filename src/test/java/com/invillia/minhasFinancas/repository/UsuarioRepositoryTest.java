@@ -9,9 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest // Cria uma instancia do banco de dados na memória e deleta ao fim dos testes
@@ -29,7 +30,7 @@ public class UsuarioRepositoryTest {
     @Test
     public void verificaEmailExistente(){
         // cenário
-        Usuario usuario = Usuario.builder().nome("usuario").email("usuario@email.com").build();
+        Usuario usuario = criarUsuario();
         repository.save(usuario);
 
         //ação
@@ -49,5 +50,51 @@ public class UsuarioRepositoryTest {
         // verificação
 
         Assertions.assertThat(resultado).isFalse();
+    }
+
+    @Test
+    public void devePersistirUmUsuarioNaBaseDeDados() {
+        //cenario
+        Usuario usuario = criarUsuario();
+
+        //ação
+        Usuario usuarioSalvo = repository.save(usuario);
+
+        //resultado
+        Assertions.assertThat(usuarioSalvo.getId()).isNotNull();
+    }
+
+    @Test
+    public void deveBuscarUmUsuarioPorEmail(){
+        //cenário
+        Usuario usuario = criarUsuario();
+        entityManager.persist(usuario);
+
+        //ação
+        Optional<Usuario> resultado = repository.findByEmail("usuario@email.com");
+
+        //resultado
+
+        Assertions.assertThat(resultado.isPresent()).isTrue();
+    }
+
+    @Test
+    public void deveRetornarVazioAoBuscarUmUsuarioPorEmailQuandoNaoExistirNaBase(){
+        //ação
+        Optional<Usuario> resultado = repository.findByEmail("usuario@email.com");
+
+        //resultado
+
+        Assertions.assertThat(resultado.isPresent()).isFalse();
+    }
+
+
+    public static Usuario criarUsuario(){
+        return Usuario
+                .builder()
+                .nome("Usuario")
+                .email("usuario@email.com")
+                .senha("senha")
+                .build();
     }
 }

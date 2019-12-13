@@ -16,6 +16,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation "org.springframework.boot:spring-boot-starter-data-jpa"
 	implementation "org.postgresql:postgresql"
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.2.1.RELEASE'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testCompile group: 'com.h2database', name: 'h2', version: '1.4.199'
